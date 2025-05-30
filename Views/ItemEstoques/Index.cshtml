@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Treinando.Models.ItemEstoque>
+@{
+    ViewData["Title"] = "Gerenciamento de Estoque";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="titulo">Gerenciamento de Estoque</h1>
+
+        @if (TempData["Erro"] != null)
+        {
+            <div class="mensagem-erro">@TempData["Erro"]</div>
+        }
+        @if (TempData["Sucesso"] != null)
+        {
+            <div class="mensagem-certo">@TempData["Sucesso"]</div>
+        }
+
+        <form asp-action="Create" method="post">
+            <div class="formulario">
+                <input type="text" name="Nome" class="input" placeholder="Nome do Produto" required />
+                <input type="number" name="Quantidade" class="input" placeholder="Quantidade" required />
+                <input type="number" step="0.01" name="Valor" class="input" placeholder="Valor" required />
+
+                <div class="botoes">
+                    <button type="submit" class="btn btn-verde">Adicionar</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="estoque-lista">
+            <h2 class="subtitulo">Estoque Atual</h2>
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Quantidade</th>
+                        <th>Valor</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Nome</td>
+                            <td>@item.Quantidade</td>
+                            <td>R$ @item.Valor</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-amarelo">Editar</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-vermelho">Remover</a>
+                                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
